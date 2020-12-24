@@ -8,15 +8,9 @@
         <!-- Form to input text (copy paste both original and corrections) -->
         <div id="step-0">
             <div class="instructions">Copy and paste your post:</div>
-
-            <input type="radio" name="input-type" value="original" checked/>
-            <label for="original">Original</label>
-            <input type="radio" name="input-type" value="correction"/>
-            <label for="correction">Correction</label>
-
             <textarea rows="8" cols="80"></textarea>
 
-            <button type="button" class="enter-raw">Enter Another</button>
+            <!-- TODO status for yes/no inputted original and num corrections inputted -->
             <button type="button" class="continue">Continue</button>
         </div>
 
@@ -26,19 +20,10 @@
         <!-- Validate original sentence split -->
         <div id="step-1">
             <div class="instructions">Make sure all lines have been identified correctly:</div>
+            <textarea rows="8" cols="80"></textarea>
 
-            <div class="original-container">
-                <h3>Original</h3>
-                <div class="list-check-lines">
-                    <!-- <input type="checkbox" name="original-1" value="line-0" checked/>
-                    <label for="line-0">The cat jumped over the hill.</label>
-                    <input type="checkbox" name="original-1" value="line-1" checked/>
-                    <label for="line-0">The cat hit the rock.</label>
-                    <input type="checkbox" name="original-1" value="line-2" checked/>
-                    <label for="line-0">The rock got a bruise.</label> -->
-                </div>
-                <button type="button" class="continue">Looks good</button>
-            </div>
+            <button type="button" class="reset">Reset</button>
+            <button type="button" class="continue">Continue</button>
         </div>
 
         <!-- TODO: remove and make parts appear one by one -->
@@ -51,20 +36,13 @@
             <div class="original-container">
                 <h3>Original</h3>
                 <div class="list-orig-lines"></div>
-                <div class="match-status">5 lines</div>
+                <div class="match-status"></div>
             </div>
 
             <div class="correction-container">
                 <h3>Correction</h3>
-                <div class="list-check-lines">
-                    <!-- <input type="checkbox" name="correction-1" value="line-0" checked/>
-                    <label for="line-0">The cat jumped over the hill.</label>
-                    <input type="checkbox" name="correction-1" value="line-1" checked/>
-                    <label for="line-0">The cat hit the rock.</label>
-                    <input type="checkbox" name="correction-1" value="line-2" checked/>
-                    <label for="line-0">The rock got a bruise.</label> -->
-                </div>
-                <div class="match-status">3 lines</div>
+                <div class="list-check-lines"></div>
+                <div class="match-status"></div>
             </div>
 
             <button type="button">Continue</button>
