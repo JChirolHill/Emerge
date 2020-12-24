@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>Lang Differ</title>
+    </head>
+    <body>
+        <!-- Form to input text (copy paste both original and corrections) -->
+        <div id="step-0">
+            <div class="instructions">Copy and paste your post:</div>
+
+            <input type="radio" name="input-type" value="original" checked/>
+            <label for="original">Original</label>
+            <input type="radio" name="input-type" value="correction"/>
+            <label for="correction">Correction</label>
+
+            <textarea rows="8" cols="80"></textarea>
+
+            <button type="button" class="enter-raw">Enter Another</button>
+            <button type="button" class="continue">Continue</button>
+        </div>
+
+        <!-- TODO: remove and make parts appear one by one -->
+        <hr>
+
+        <!-- Validate original sentence split -->
+        <div id="step-1">
+            <div class="instructions">Make sure all lines have been identified correctly:</div>
+
+            <div class="original-container">
+                <h3>Original</h3>
+                <div class="list-check-lines">
+                    <!-- <input type="checkbox" name="original-1" value="line-0" checked/>
+                    <label for="line-0">The cat jumped over the hill.</label>
+                    <input type="checkbox" name="original-1" value="line-1" checked/>
+                    <label for="line-0">The cat hit the rock.</label>
+                    <input type="checkbox" name="original-1" value="line-2" checked/>
+                    <label for="line-0">The rock got a bruise.</label> -->
+                </div>
+                <button type="button" class="continue">Looks good</button>
+            </div>
+        </div>
+
+        <!-- TODO: remove and make parts appear one by one -->
+        <hr>
+
+        <!-- Form to select lines (checkboxes) -->
+        <div id="step-2">
+            <div class="instructions">Select the sentences of the correction so that both sides match:</div>
+
+            <div class="original-container">
+                <h3>Original</h3>
+                <div class="list-orig-lines"></div>
+                <div class="match-status">5 lines</div>
+            </div>
+
+            <div class="correction-container">
+                <h3>Correction</h3>
+                <div class="list-check-lines">
+                    <!-- <input type="checkbox" name="correction-1" value="line-0" checked/>
+                    <label for="line-0">The cat jumped over the hill.</label>
+                    <input type="checkbox" name="correction-1" value="line-1" checked/>
+                    <label for="line-0">The cat hit the rock.</label>
+                    <input type="checkbox" name="correction-1" value="line-2" checked/>
+                    <label for="line-0">The rock got a bruise.</label> -->
+                </div>
+                <div class="match-status">3 lines</div>
+            </div>
+
+            <button type="button">Continue</button>
+        </div>
+
+        <!-- TODO: remove and make parts appear one by one -->
+        <hr>
+
+        <!-- Show result of diff -->
+        <div id="step-3">
+            <div class="instructions">Your result:</div>
+
+            <div class="line-group">
+                <div class="line-original">The cat jumpp over hill.</div>
+                <div class="line-correction">The cat jumped over the hill.</div>
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript" src="scripts.js"></script>
+</html>
