@@ -61,7 +61,7 @@ function updateLines(domStep, correctionIndex) {
         }
     });
 
-    console.log(`After updating at index ${correctionIndex}:`, lines);
+    // console.log(`After updating at index ${correctionIndex}:`, lines);
 }
 
 // Populates container for checks and text inputs to validate lines
@@ -176,6 +176,6 @@ function loadNextState() {
         case 3:
             break;
         default:
-            console.log('Error, nonexistent state');
+            console.err('Error, nonexistent state');
     }
 }
