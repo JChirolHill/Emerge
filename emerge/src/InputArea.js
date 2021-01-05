@@ -9,7 +9,8 @@ export default function InputArea(props) {
                     className={`w-100 ${props.spaced && 'spaced-vertically'}`} 
                     rows={props.rows ?? 8} 
                     value={props.inputText} 
-                    onChange={props.onInput}></textarea>
+                    onChange={props.onInput}
+                    wrap={props.nowrap ? 'off' : 'on'}></textarea>
             </div>
         </div>
     );

@@ -51,6 +51,7 @@ export function CalculateDiffs(entries) {
     return diffLines;
 }
 
+// Returns whether a given line has any corrections
 export function AnyCorrections(line) {
     for (let i=0; i<line.length; ++i) {
         if (line[i].added || line[i].removed) {
@@ -58,4 +59,14 @@ export function AnyCorrections(line) {
         }
     }
     return false;
+}
+
+// If line exceeds limit of characters, trimmed from the middle and replaced with '...'
+// Returns trimmed sentence
+export function TrimSentence(line) {
+    const LENGTH_LIMIT = 25;
+    if (line.length > LENGTH_LIMIT) {
+        line = `${line.substr(0,15)}.....${line.substr(line.length - 10)}`;
+    }
+    return line;
 }

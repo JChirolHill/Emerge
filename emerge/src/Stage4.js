@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import InputArea from './InputArea';
-import { SplitLinesFromRaw, CountLinesRaw } from './API';
+import { SplitLinesFromRaw, CountLinesRaw, TrimSentence } from './API';
 
 export default function Stage4(props) {
     const [raw, setRaw] = useState(props.inputText.join('\n'));
     const [numLinesRaw, setNumLinesRaw] = useState(CountLinesRaw(raw));
-    const [linesEqual, setLinesEqual] = useState(false);
+    const [linesEqual, setLinesEqual] = useState(props.originalLines.length === numLinesRaw);
     
     return (
         <div>
@@ -16,7 +16,7 @@ export default function Stage4(props) {
                     <h3>Original</h3>
                     <div style={{marginTop: '10px'}}>
                         { props.originalLines.map((line, index) => {
-                            return <div key={`orig-line-${index}`} className="spaced-vertically">{line}</div>
+                            return <div key={`orig-line-${index}`} className="spaced-vertically">{TrimSentence(line)}</div>
                         })}
                     </div>
                 </div>
@@ -26,7 +26,8 @@ export default function Stage4(props) {
                         spaced={true} 
                         inputText={raw} 
                         rows={props.originalLines.length}
-                        onInput={handleInput}/>
+                        onInput={handleInput}
+                        nowrap={true}/>
                 </div>
             </div>
             

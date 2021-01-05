@@ -87,20 +87,11 @@ export default class StageManager extends React.Component {
                 this.redirectToStage(3);
                 break;
             case 3: 
-                if (lines.length !== this.state.entries[0].length) {
-                    this.setState({ 
-                        stage: 4,
-                        entries: this.updateEntries(lines)
-                    });
-                    this.redirectToStage(4);
-                }
-                else {
-                    this.setState({ 
-                        entries: this.updateEntries(lines),
-                        currEntryIndex: this.state.currEntryIndex + 1
-                    });
-                    this.redirectToStage(this.state.stage);
-                }
+                this.setState({ 
+                    stage: 4,
+                    entries: this.updateEntries(lines)
+                });
+                this.redirectToStage(4);
                 break;
             case 4:
                 this.setState({ 
