@@ -1,67 +1,34 @@
-import React, { useState } from 'react';
-import InputArea from './InputArea';
-import { SplitLinesFromRaw, CountLinesRaw, TrimSentence } from './API';
+import React from 'react';
+import { CalculateDiffs } from './API';
+import CorrectionBlock from './CorrectionBlock';
 
 export default function Stage4(props) {
-    const [raw, setRaw] = useState(props.inputText.join('\n'));
-    const [numLinesRaw, setNumLinesRaw] = useState(CountLinesRaw(raw));
-    const [linesEqual, setLinesEqual] = useState(props.originalLines.length === numLinesRaw);
-    
-    return (
-        <div>
-            <h4 className="mb-3">Add/remove new lines (return key) until the number of lines matches that of the original:</h4>
+    const diffs = CalculateDiffs(props.entries);
 
-            <div className="row">
-                <div className="col-12 col-md-6 text-end divider">
-                    <h3>Original</h3>
-                    <div style={{marginTop: '10px'}}>
-                        { props.originalLines.map((line, index) => {
-                            return <div key={`orig-line-${index}`} className="spaced-vertically">{TrimSentence(line)}</div>
+    return (
+        <>  
+            <h4>Here are the results, grouped by sentence:</h4>
+            { diffs.map((line, indexLine) => {
+                return (
+                    <div key={`sentence-${indexLine}`} className="correctionBlock">
+                        <div>{props.originalLines[indexLine]}</div>
+                        { line.map((correction, indexCorrection) => {
+                            return (
+                                <div key={`correction-block-${indexLine}-${indexCorrection}`}>
+                                    <CorrectionBlock 
+                                        key={`correction-${indexLine}`}
+                                        indexLine={indexLine} 
+                                        indexCorrection={indexCorrection} 
+                                        correction={correction}/>
+                                </div>
+                            );
                         })}
                     </div>
-                </div>
-                <div className="col-12 col-md-6 text-start">
-                    <h3>Correction</h3>
-                    <InputArea  
-                        spaced={true} 
-                        inputText={raw} 
-                        rows={props.originalLines.length}
-                        onInput={handleInput}
-                        nowrap={true}/>
-                </div>
-            </div>
+                );
+            }) }
             
-            <div className="row">
-                <div className={`col-6 text-end divider ${linesEqual ? 'text-success' : 'text-danger'}`}>
-                    {`${props.originalLines.length} lines`}
-                </div>
-                <div className={`col-6 text-start ${linesEqual ? 'text-success' : 'text-danger'}`}>
-                    {`${numLinesRaw} lines`}
-                </div>
-            </div>
-
-            <button className="btn" onClick={handleReset}>Reset</button>
-            {props.originalLines.length === numLinesRaw && <button className="btn" onClick={handleSubmit}>Continue</button>} 
-        </div>
+            <button className="btn" onClick={props.onAddCorrection}>Add Another Correction</button>
+            <button className="btn" onClick={props.onSubmit}>Start Over</button>
+        </>
     );
-
-    function handleInput(event) {
-        setRaw(event.target.value);
-
-        let updatedLines = CountLinesRaw(event.target.value);
-        setNumLinesRaw(updatedLines);
-        setLinesEqual(props.originalLines.length === updatedLines);
-    }
-
-    function handleSubmit() {
-        if (props.originalLines.length === numLinesRaw) {
-            props.onSubmit(SplitLinesFromRaw(raw));
-            setRaw('');
-        }
-        // TODO else do error message
-    }
-
-    function handleReset() {
-        setRaw(props.inputText.join('\n'));
-    }
 }

@@ -10,7 +10,7 @@ export default function Stage2(props) {
             <InputArea 
                 rows={props.textToValidate.length}
                 spaced={true}
-                instructions="Check that the number lines were correctly split up:" 
+                instructions="Check that the lines were correctly split up:" 
                 inputText={raw} 
                 onInput={handleInput}/>
             <button className="btn" onClick={handleReset}>Reset</button>

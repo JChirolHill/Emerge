@@ -28,7 +28,7 @@ export function SplitLinesFromRaw(raw, allDelim = false) {
 }
 
 // Takes in raw string and returns number of 'lines' based on \n delimeter
-// Optional boolean parameter to include other delimeters: . ? ! 
+// Optional boolean parameter to include other delimeters: . ? !
 export function CountLinesRaw(raw, allDelim) {
     return SplitLinesFromRaw(raw, allDelim).length;
 }
@@ -51,6 +51,21 @@ export function CalculateDiffs(entries) {
     return diffLines;
 }
 
+export function FormatEntriesToLines(entries) {
+    const byLines = []; // Organized by line, not by entry
+    for (let i=0; i<entries[0].length; ++i) {
+        byLines.push([]);
+    }
+
+    for (let i=1; i<entries.length; ++i) { // Iterate over all entries
+        for (let j=0; j<entries[i].length; ++j) { // Iterate over all lines for each entry
+            byLines[j].push(entries[i][j].trim());
+        }
+    }
+
+    return byLines
+}
+
 // Returns whether a given line has any corrections
 export function AnyCorrections(line) {
     for (let i=0; i<line.length; ++i) {
@@ -70,3 +85,33 @@ export function TrimSentence(line) {
     }
     return line;
 }
+
+export function ExtractCorrection(raw) {
+    // Remove all crossed out text
+    raw = raw.replace(/<span style="text-decoration:line-through; color:#bfbfbf;">.*?<\/span>/g, '');
+
+    // Remove spans for added text
+    raw = raw.replace(/<(.|\n)*?>/g, '');
+
+    // Remove any special characters
+    raw = raw.replace(/&[a-z]+;/g, ' ');
+
+    return raw;
+}
+
+// // Get raw input values from chrome extension
+// export function GetRawFromExtension() {
+//     chrome.runtime.sendMessage({
+//         type: 'raw-request'
+//     });
+// }
+//
+// // Receive response from chrome extension
+// chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+//     if (request.type === 'raw-request') {
+//         console.log(request.raw);
+//
+//         document.querySelector('#raw-input').innerHTML = request.raw[0];
+//         document.querySelector('button').click();
+//     }
+// });

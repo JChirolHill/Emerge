@@ -5,7 +5,6 @@ import Stage1 from './Stage1';
 import Stage2 from './Stage2';
 import Stage3 from './Stage3';
 import Stage4 from './Stage4';
-import Stage5 from './Stage5';
 import './App.css';
 
 export default class StageManager extends React.Component {
@@ -20,7 +19,6 @@ export default class StageManager extends React.Component {
     }
 
     render() {
-        console.log(this.state.entries);
         switch (this.state.stage) {
             // case 0:  {
             //     return (
@@ -29,31 +27,35 @@ export default class StageManager extends React.Component {
             // }
             case 1:
                 return (
-                    <Stage1 onSubmit={this.handleSubmit}/>
+                    <Stage1 
+                        onSubmit={this.handleSubmit}
+                        onNoMoreEntries={this.handleNoMoreEntries}
+                        isCorrection={this.state.entries.length > 0}
+                        firstCorrection={this.state.entries.length < 2}/>
                 );
             case 2:
                 return (
-                    <Stage2 
+                    <Stage2
                         onSubmit={this.handleSubmit}
                         textToValidate={this.state.entries[this.state.currEntryIndex]}/>
                 );
+            // case 3:
+            //     return (
+            //         <Stage3_old
+            //             onSubmit={this.handleSubmit}
+            //             onNoMoreEntries={this.handleNoMoreEntries}
+            //             firstCorrection={this.state.entries.length < 2}/>
+            //     );
             case 3:
                 return (
-                    <Stage3 
-                        onSubmit={this.handleSubmit}
-                        onNoMoreEntries={this.handleNoMoreEntries}
-                        firstCorrection={this.state.entries.length < 2}/>
-                );
-            case 4:
-                return (
-                    <Stage4 
+                    <Stage3
                         onSubmit={this.handleSubmit}
                         originalLines={this.state.entries[0]}
                         inputText={this.state.entries[this.state.currEntryIndex]}/>
                 );
-            case 5:
+            case 4:
                 return (
-                    <Stage5 
+                    <Stage4
                         onSubmit={this.handleSubmit}
                         onAddCorrection={this.handleAddEntry}
                         originalLines={this.state.entries[0]}
@@ -66,43 +68,41 @@ export default class StageManager extends React.Component {
 
     handleSubmit = (lines) => {
         switch (this.state.stage) {
-            // case 0:
-            //     this.setState({
-            //         stage: 1
-            //     });
-            //     break;
             case 1:
-                this.setState({ 
-                    stage: 2,
-                    entries: this.updateEntries(lines)
+                this.setState({
+                    stage: 1,
+                    entries: this.updateEntries(lines),
+                    currEntryIndex: this.state.currEntryIndex + 1
                 });
-                this.redirectToStage(2);
+                this.redirectToStage(1);
                 break;
             case 2:
-                this.setState({ 
+                this.setState({
                     stage: 3,
                     entries: this.updateEntries(lines),
                     currEntryIndex: this.state.currEntryIndex + 1
                 });
                 this.redirectToStage(3);
                 break;
-            case 3: 
-                this.setState({ 
-                    stage: 4,
-                    entries: this.updateEntries(lines)
-                });
-                this.redirectToStage(4);
+            case 3:
+                if (this.state.currEntryIndex + 1 === this.state.entries.length) {
+                    this.setState({
+                        stage: 4,
+                        entries: this.updateEntries(lines)
+                    });
+                    this.redirectToStage(4);
+                }
+                else {
+                    this.setState({
+                        stage: 3,
+                        entries: this.updateEntries(lines),
+                        currEntryIndex: this.state.currEntryIndex + 1
+                    });
+                    this.redirectToStage(3);
+                }
                 break;
             case 4:
-                this.setState({ 
-                    stage: 3,
-                    entries: this.updateEntries(lines),
-                    currEntryIndex: this.state.currEntryIndex + 1
-                });
-                this.redirectToStage(3);
-                break;
-            case 5:
-                this.setState({ 
+                this.setState({
                     stage: 1,
                     entries: [],
                     currEntryIndex: 0
@@ -115,18 +115,21 @@ export default class StageManager extends React.Component {
         }
     }
 
-    handleNoMoreEntries = () => {
-        this.setState({
-            stage: 5
-        });
-        this.redirectToStage(5);
-    }
-
+    // TODO: currently broken since after stage 1 goes through all other stages and gets totally lost, need to babysit the redicting
     handleAddEntry = () => {
         this.setState({
-            stage: 3
+            stage: 1
         });
-        this.redirectToStage(3);
+        this.redirectToStage(1);
+    }
+
+    handleNoMoreEntries = (lines) => {
+        this.setState({
+            stage: 2,
+            entries: this.updateEntries(lines),
+            currEntryIndex: 0
+        });
+        this.redirectToStage(2);
     }
 
     redirectToStage = (stage) => {
@@ -136,10 +139,8 @@ export default class StageManager extends React.Component {
             case 2:
                 return <Redirect to="/original/validate"/>;
             case 3:
-                return <Redirect to="/correction/input"/>;
-            case 4:
                 return <Redirect to="/correction/validate"/>;
-            case 5:
+            case 4:
                 return <Redirect to="/result"/>;
             default:
                 return <Redirect to="/"/>;

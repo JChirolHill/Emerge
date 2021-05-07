@@ -66,3 +66,14 @@ textarea {
 .correction-same {
     color: black;
 }
+
+.marked-up {
+    overflow-x: scroll;
+    white-space: nowrap;
+}
+
+.marked-up span {
+    display: inline-block;
+    width: 600px;
+    white-space: normal;
+}
