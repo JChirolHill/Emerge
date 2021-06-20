@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { SplitLinesFromRaw, ExtractCorrection } from './API';
 import ContentEditable from 'react-contenteditable';
 
+// Stage 1 allows users to input their original post as well as any corrections
 export default function Stage1(props) {
     const [raw, setRaw] = useState('');
 
@@ -9,7 +10,7 @@ export default function Stage1(props) {
         <div>
             <h4>{ props.isCorrection ? 'Enter a correction' : 'Enter your original entry' }</h4>
             <ContentEditable html={raw} onChange={handleInput}/>
-            { props.firstCorrection || <button id="btnFinish" className="btn" onClick={handleNoMoreEntries}>Finished?</button> }
+            { props.isCorrection && <button id="btnFinish" className="btn" onClick={handleNoMoreEntries}>Finished?</button> }
             <button id="btnContinue" className="btn" onClick={handleSubmit}>Continue</button>
         </div>
     );

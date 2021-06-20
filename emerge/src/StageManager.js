@@ -27,11 +27,10 @@ export default class StageManager extends React.Component {
             // }
             case 1:
                 return (
-                    <Stage1 
+                    <Stage1
                         onSubmit={this.handleSubmit}
                         onNoMoreEntries={this.handleNoMoreEntries}
-                        isCorrection={this.state.entries.length > 0}
-                        firstCorrection={this.state.entries.length < 2}/>
+                        isCorrection={this.state.entries.length > 0}/>
                 );
             case 2:
                 return (
@@ -39,19 +38,14 @@ export default class StageManager extends React.Component {
                         onSubmit={this.handleSubmit}
                         textToValidate={this.state.entries[this.state.currEntryIndex]}/>
                 );
-            // case 3:
-            //     return (
-            //         <Stage3_old
-            //             onSubmit={this.handleSubmit}
-            //             onNoMoreEntries={this.handleNoMoreEntries}
-            //             firstCorrection={this.state.entries.length < 2}/>
-            //     );
             case 3:
                 return (
                     <Stage3
                         onSubmit={this.handleSubmit}
                         originalLines={this.state.entries[0]}
-                        inputText={this.state.entries[this.state.currEntryIndex]}/>
+                        inputText={this.state.entries[this.state.currEntryIndex]}
+                        currCorrectionIndex={this.state.currEntryIndex}
+                        totalCorrections={this.state.entries.length - 1}/>
                 );
             case 4:
                 return (

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import InputArea from './InputArea';
 import { SplitLinesFromRaw, CountLinesRaw, TrimSentence } from './API';
 
+// Stage 3 shows users each correction so they can correctly split by line
+// Only moves to stage 4 when all lines are correctly split up
 export default function Stage3(props) {
     const [raw, setRaw] = useState(props.inputText.join('\n'));
     const [numLinesRaw, setNumLinesRaw] = useState(CountLinesRaw(raw));
@@ -18,6 +20,7 @@ export default function Stage3(props) {
     return (
         <div>
             <h4 className="mb-3">Add/remove new lines (return key) until the number of lines matches that of the original:</h4>
+            <h4>{props.currCorrectionIndex}/{props.totalCorrections} Corrections</h4>
 
             <div className="row">
                 <div className="col-12 col-md-6 text-end divider">
@@ -30,15 +33,15 @@ export default function Stage3(props) {
                 </div>
                 <div className="col-12 col-md-6 text-start">
                     <h3>Correction</h3>
-                    <InputArea  
-                        spaced={true} 
-                        inputText={raw} 
+                    <InputArea
+                        spaced={true}
+                        inputText={raw}
                         rows={props.originalLines.length}
                         onInput={handleInput}
                         nowrap={true}/>
                 </div>
             </div>
-            
+
             <div className="row">
                 <div className={`col-6 text-end divider ${linesEqual ? 'text-success' : 'text-danger'}`}>
                     {`${props.originalLines.length} lines`}
@@ -49,7 +52,7 @@ export default function Stage3(props) {
             </div>
 
             <button className="btn" onClick={handleReset}>Reset</button>
-            {props.originalLines.length === numLinesRaw && <button className="btn" onClick={handleSubmit}>Continue</button>} 
+            {props.originalLines.length === numLinesRaw && <button className="btn" onClick={handleSubmit}>Continue</button>}
         </div>
     );
 
