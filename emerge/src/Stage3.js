@@ -25,9 +25,9 @@ export default function Stage3(props) {
             <div className="row">
                 <div className="col-12 col-md-6 text-end divider">
                     <h3>Original</h3>
-                    <div style={{marginTop: '10px'}}>
+                    <div style={{marginTop: '10px'}} className="text-start overflow-auto text-nowrap">
                         { props.originalLines.map((line, index) => {
-                            return <div key={`orig-line-${index}`} className="spaced-vertically">{TrimSentence(line)}</div>
+                            return (<div key={`orig-line-${index}`} className="spaced-vertically">{(line)}</div>)
                         })}
                     </div>
                 </div>

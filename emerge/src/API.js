@@ -16,9 +16,10 @@ export function SplitLinesFromRaw(raw, allDelim = false) {
     // Split raw by new-line character
     let rawSplit = raw.split(/\n/);
 
-    // Remove any blank lines after splitting
+    // Trim leading/trailing whitespace and remove any blank lines after splitting
     for (let i=0; i<rawSplit.length; ++i) {
-        if (rawSplit[i].trim() === '') {
+        rawSplit[i] = rawSplit[i].trim();
+        if (rawSplit[i] === '') {
             rawSplit.splice(i, 1);
             --i;
         }
@@ -42,9 +43,19 @@ export function CalculateDiffs(entries) {
         diffLines.push([]);
     }
 
+    // Determine if Chinese or other to split by char or word
+    const REGEX_CHINESE = /[\u4e00-\u9fff]|[\u3400-\u4dbf]|[\u{20000}-\u{2a6df}]|[\u{2a700}-\u{2b73f}]|[\u{2b740}-\u{2b81f}]|[\u{2b820}-\u{2ceaf}]|[\uf900-\ufaff]|[\u3300-\u33ff]|[\ufe30-\ufe4f]|[\uf900-\ufaff]|[\u{2f800}-\u{2fa1f}]/u;
+    const hasChinese = REGEX_CHINESE.test(entries[0][0]);
+
+
     for (let i=1; i<entries.length; ++i) { // Iterate over all entries
         for (let j=0; j<entries[i].length; ++j) { // Iterate over all lines for each entry
-            diffLines[j].push(Diff.diffChars(entries[0][j].trim(), entries[i][j].trim()));
+            if (hasChinese) {
+                diffLines[j].push(Diff.diffChars(entries[0][j].trim(), entries[i][j].trim()));
+            }
+            else {
+                diffLines[j].push(Diff.diffWords(entries[0][j].trim(), entries[i][j].trim()));
+            }
         }
     }
 
